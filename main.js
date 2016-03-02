@@ -115,7 +115,7 @@
         },
 
         parse: function (url) {
-            var ext = url.substr(filename.lastIndexOf('.') + 1);
+            var ext = url.substr(url.lastIndexOf('.') + 1);
 
             try {
                 switch (ext) {
