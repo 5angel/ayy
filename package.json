@@ -1,0 +1,19 @@
+{
+  "name": "ayy",
+  "version": "1.0.0",
+  "description": ": a test project for testing files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/5angel/ayy.git"
+  },
+  "author": "5angel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/5angel/ayy/issues"
+  },
+  "homepage": "https://github.com/5angel/ayy#readme"
+}
