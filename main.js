@@ -116,7 +116,7 @@
 
         parse: function (url) {
             var ext = url.substr(url.lastIndexOf('.') + 1);
-
+            console.log(ext);
             try {
                 switch (ext) {
                     case 'json':
