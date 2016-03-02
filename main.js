@@ -114,9 +114,9 @@
             return text;
         },
 
-        parse: function (url) {
+        parse: function (url, data) {
             var ext = url.substr(url.lastIndexOf('.') + 1);
-            console.log(ext);
+
             try {
                 switch (ext) {
                     case 'json':
@@ -139,12 +139,14 @@
 
     var App = Extendable.extend({
         constructor: function () {
+            this._target = '';
+
             this._loader = new LoaderService();
             this._parser = new ParserService();
         },
 
         _onSuccess: function (str) {
-            this._output.value = this._parser.parse(str);
+            this._output.value = this._parser.parse(this._target, str);
         },
 
         _onError: function (e) {
@@ -163,8 +165,10 @@
         update: function () {
             this._output.value = 'Загрузка...';
 
+            this._target = this._input.value;
+
             this._loader.load(
-                this._input.value,
+                this._target,
                 this._onSuccess.bind(this),
                 this._onError.bind(this)
             );
