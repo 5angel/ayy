@@ -1,6 +1,8 @@
 (function () {
     'use strict';
+    // Ну это стандартное вступление, чтобы не загрязнять глобальный мир
 
+    // Чтобы потом 2 раза не писать, сделаем хелпер
     function extend(to, from) {
         for (var prop in from) {
             if (from.hasOwnProperty(prop)) {
@@ -11,15 +13,21 @@
         return to;
     }
 
+    // Вот этот забавный паттерн я подсмотрел у Бекбоуна
     var Extendable = (function () {
         function Extendable() {}
 
+        // Суть в том, что вместо того, чтобы 10 раз писать «Fn.prototype = ла-ла-ла»,
+        // мы просто наследуемся с помощью Fn.extend, а методы записываем в виде
+        // аргументов (в т.ч. статику). Получается чище, чем в обычном Ecma5.
         Extendable.extend = function (protoProps, staticProps) {
             var parent = this;
 
+            // ставит заглушку, если наследуемся без конструктора
             var child = protoProps && hasOwnProperty.call(protoProps, 'constructor')
                 ? protoProps.constructor : function () { return parent.apply(this, arguments); };
 
+            // ну дальше стандартно
             extend(child, staticProps);
 
             var Fn = function () {};
@@ -37,6 +45,8 @@
         return Extendable;
     })();
 
+    // Дальше разносим куски функционала на отдельные сервисы.
+    // Кэширование поедет сюда.
     var CacheService = Extendable.extend({
         constructor: function (target, duration) {
             this._target   = target;
@@ -64,7 +74,15 @@
             var cache = this._parse(),
                 data  = cache[key];
 
-            if (!data || parseInt(data.expireAt) - (new Date).getTime() > 0) {
+            var left = !data ? 0 : parseInt(data.expireAt) - (new Date).getTime();
+
+            if (left > 0) {
+                var date = new Date(parseInt(data.expireAt));
+
+                console.info('"' + key '" is cached and wont expire until ' + date.toString());
+            }
+
+            if (!data || parseInt(data.expireAt) - (new Date).getTime() < 0) {
                 delete cache[key];
                 return undefined;
             }
