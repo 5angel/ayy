@@ -62,6 +62,7 @@
         put: function (key, value) {
             var cache = this._parse();
 
+            // экспайрим по типу куков
             cache[key] = {
                 expireAt: (new Date).getTime() + this._duration,
                 value:    value
@@ -79,10 +80,10 @@
             if (left > 0) {
                 var date = new Date(parseInt(data.expireAt));
 
-                console.info('"' + key '" is cached and wont expire until ' + date.toString());
+                console.info('"' + key + '" is cached and wont expire until ' + date.toString());
             }
 
-            if (!data || parseInt(data.expireAt) - (new Date).getTime() < 0) {
+            if (!data || parseInt(data.expireAt) - (new Date).getTime() < 0)
                 delete cache[key];
                 return undefined;
             }
@@ -172,6 +173,8 @@
         },
 
         start: function () {
+            // если стартануть до загрузки дома, будут нуллы
+
             this._input  = document.getElementById('input');
             this._output = document.getElementById('output');
 
