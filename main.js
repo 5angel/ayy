@@ -83,7 +83,7 @@
                 console.info('"' + key + '" is cached and wont expire until ' + date.toString());
             }
 
-            if (!data || parseInt(data.expireAt) - (new Date).getTime() < 0)
+            if (!data || (parseInt(data.expireAt) - (new Date).getTime() < 0)) {
                 delete cache[key];
                 return undefined;
             }
