@@ -144,7 +144,7 @@
         },
 
         _onSuccess: function (str) {
-            this._output.value = str;
+            this._output.value = this._parser.parse(str);
         },
 
         _onError: function (e) {
